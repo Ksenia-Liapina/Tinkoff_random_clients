@@ -5,6 +5,7 @@ plugins {
 group 'ru.tinkof.lyapina'
 version '1.0'
 
+compileJava.options.encoding = "UTF-8"
 sourceCompatibility = 1.8
 
 repositories {
@@ -17,3 +18,25 @@ dependencies {
     compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
     compile 'com.itextpdf:itextpdf:5.5.10'
 }
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": 'ru.tinkof.lyapina.Application'
+        )
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+/*
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'ru.tinkof.lyapina.Application'
+    }
+    baseName = 'all-in-one-jar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}*/
