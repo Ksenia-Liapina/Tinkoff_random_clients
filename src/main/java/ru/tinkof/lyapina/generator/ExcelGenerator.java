@@ -1,11 +1,15 @@
+package ru.tinkof.lyapina.generator;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import ru.tinkof.lyapina.utils.GeneratorUtils;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
 
 import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_CENTER;
+import static ru.tinkof.lyapina.utils.ExcelUtils.fillHeaders;
 
 public class ExcelGenerator implements IGenerator {
 
@@ -26,7 +30,7 @@ public class ExcelGenerator implements IGenerator {
 
     private byte[] generateExcelTable(int rowsCount) throws Exception {
         Workbook workbook = new HSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Пользователи");
+        Sheet sheet = workbook.createSheet("Users");
         sheet.setDefaultColumnWidth(40);
 
         CellStyle cellStyleHeader = workbook.createCellStyle();
@@ -88,15 +92,4 @@ public class ExcelGenerator implements IGenerator {
         }
     }
 
-    private void fillHeaders(Sheet sheet, CellStyle cellStyleHeader){
-        Row headerForNames = sheet.createRow(0);
-        int headerCellInd = 0;
-        for(String headerName : GeneratorUtils.HEADERS){
-            Cell headerCell = headerForNames.createCell(headerCellInd);
-            headerCell.setCellStyle(cellStyleHeader);
-            headerCell.setCellValue(headerName);
-
-            headerCellInd++;
-        }
-    }
 }

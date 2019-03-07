@@ -1,12 +1,15 @@
+package ru.tinkof.lyapina.generator;
+
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import ru.tinkof.lyapina.utils.GeneratorUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -19,11 +22,14 @@ public class PdfGenerator implements IGenerator {
 
     public PdfGenerator(String pdfFilePath) {
         this.pdfFile = new File(pdfFilePath);
-        this.font = FontFactory.getFont(this.getClass().getClassLoader().getResource("OpenSans-Regular.ttf").getPath(), "cp1251");
+        this.font = FontFactory.getFont(this.getClass().getClassLoader().getResource("OpenSans-Regular.ttf").getPath
+                (), "cp1251");
     }
 
     @Override
     public void generate() throws Exception {
+        //У генератора большие проблемы с кирилическими символами, поэтому я включила фантазию и написала транслитом текст в файле)))
+
         generatePDFTable(GeneratorUtils.RANDOM.nextInt(30) + 1);
 
         System.out.println(String.format("Файл создан. Путь: %s", pdfFile.getAbsolutePath()));
@@ -47,9 +53,9 @@ public class PdfGenerator implements IGenerator {
         document.close();
     }
 
-    private void addTableHeader(PdfPTable table) {
+    private void addTableHeader(PdfPTable table) throws UnsupportedEncodingException {
         for(String headerName : GeneratorUtils.HEADERS){
-            PdfPCell cell = new PdfPCell(new Paragraph(headerName, font));
+            PdfPCell cell = new PdfPCell(new Paragraph(GeneratorUtils.transliterate(headerName), font));
             cell.setNoWrap(false);
             table.addCell(cell);
         }
@@ -80,8 +86,8 @@ public class PdfGenerator implements IGenerator {
         table.addCell(getCellPhrase(String.valueOf(1 + GeneratorUtils.RANDOM.nextInt(200)), font));
     }
 
-    private Phrase getCellPhrase(String text, Font font){
-        return new Phrase(text, font);
+    private Phrase getCellPhrase(String text, Font font) throws UnsupportedEncodingException {
+        return new Phrase(GeneratorUtils.transliterate(text), font);
     }
 
 
