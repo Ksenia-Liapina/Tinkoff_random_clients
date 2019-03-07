@@ -1,5 +1,6 @@
 package ru.tinkof.lyapina.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import ru.tinkof.lyapina.model.User;
@@ -17,7 +18,7 @@ public class ExcelUtils {
 
     private ExcelUtils(){}
 
-    public static byte[] createExcelFileForUsers(final String fileName, final List<User> users) throws IOException {
+    public static byte[] createExcelFileForUsers(final List<User> users) throws IOException {
         Workbook workbook = new HSSFWorkbook();
         Sheet sheet = workbook.createSheet("Users");
         sheet.setDefaultColumnWidth(40);
@@ -40,18 +41,17 @@ public class ExcelUtils {
 
             userRow.createCell(0).setCellValue(user.getName().getFirst());
             userRow.createCell(1).setCellValue(user.getName().getLast());
-            userRow.createCell(2).setCellValue("");
+            userRow.createCell(2).setCellValue("Н/Д");
             userRow.createCell(3).setCellValue(user.getBirthInfo().getAge());
             userRow.createCell(4).setCellValue(user.getGender());
-            userRow.createCell(5).setCellValue(LocalDate.parse(user.getBirthInfo().getBirthDate())
-                                                        .format(GeneratorUtils.DATE_FORMATTER));
-            userRow.createCell(6).setCellValue("");
+            userRow.createCell(5).setCellValue(parseStringDate(user.getBirthInfo().getBirthDate()));
+            userRow.createCell(6).setCellValue("Н/Д");
             userRow.createCell(7).setCellValue(user.getLocationInfo().getPostcode());
             userRow.createCell(8).setCellValue(user.getNat());
             userRow.createCell(9).setCellValue(user.getLocationInfo().getState());
             userRow.createCell(10).setCellValue(user.getLocationInfo().getCity());
             userRow.createCell(11).setCellValue(user.getLocationInfo().getStreet());
-            userRow.createCell(12).setCellValue(user.getLocationInfo().getStreet());
+            userRow.createCell(12).setCellValue(getHouseNumberFromStreet(user.getLocationInfo().getStreet()));
             userRow.createCell(13).setCellValue(1 + GeneratorUtils.RANDOM.nextInt(200));
 
             rowCount++;
@@ -60,6 +60,27 @@ public class ExcelUtils {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         workbook.write(baos);
         return baos.toByteArray();
+    }
+
+    private static String getHouseNumberFromStreet(String street){
+        String[] splitted = street.split(" ");
+
+        for(String streetPart : splitted){
+            if(StringUtils.isNumeric(streetPart)){
+                return streetPart;
+            }
+        }
+
+        return "Н/Д";
+    }
+
+    private static String parseStringDate(String dateStr){
+        String[] splitted = dateStr.split("T");
+        if(splitted.length < 2){
+            return dateStr;
+        }
+
+        return splitted[0];
     }
 
     public static void fillHeaders(Sheet sheet, CellStyle cellStyleHeader) {

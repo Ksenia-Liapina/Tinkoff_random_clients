@@ -9,8 +9,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
         IGenerator generator = new ApiGenerator("https://randomuser.me/api/");
 
-        generator.generate();
-        /*try {
+        try {
             generator.generate();
         } catch (Exception e){
             System.out.println("Произошла ошибка при запросе пользователя по сети (используя api). Сгенерируем файл " +
@@ -18,7 +17,7 @@ public class Application {
 
             generator = new ExcelGenerator("task.xls");
             generator.generate();
-        }*/
+        }
     }
 
 }
