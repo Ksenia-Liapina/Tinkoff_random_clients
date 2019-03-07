@@ -20,20 +20,7 @@ public class ExcelUtils {
 
     public static byte[] createExcelFileForUsers(final List<User> users) throws IOException {
         Workbook workbook = new HSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Users");
-        sheet.setDefaultColumnWidth(40);
-
-        CellStyle cellStyleHeader = workbook.createCellStyle();
-        cellStyleHeader.setWrapText(true);
-        cellStyleHeader.setAlignment(ALIGN_CENTER);
-        cellStyleHeader.setVerticalAlignment(ALIGN_CENTER);
-        cellStyleHeader.setIndention((short) 1);
-
-        Font font = workbook.createFont();
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-        cellStyleHeader.setFont(font);
-
-        fillHeaders(sheet, cellStyleHeader);
+        Sheet sheet = createSheetWithHeaders(workbook, "Users");
 
         int rowCount = 1;
         for(User user : users){
@@ -62,6 +49,38 @@ public class ExcelUtils {
         return baos.toByteArray();
     }
 
+    public static Sheet createSheetWithHeaders(Workbook workbook, final String sheetName){
+        Sheet sheet = workbook.createSheet(sheetName);
+        sheet.setDefaultColumnWidth(40);
+
+        CellStyle cellStyleHeader = workbook.createCellStyle();
+        cellStyleHeader.setWrapText(true);
+        cellStyleHeader.setAlignment(ALIGN_CENTER);
+        cellStyleHeader.setVerticalAlignment(ALIGN_CENTER);
+        cellStyleHeader.setIndention((short) 1);
+
+        Font font = workbook.createFont();
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        cellStyleHeader.setFont(font);
+
+        fillHeaders(sheet, cellStyleHeader);
+
+        return sheet;
+    }
+
+    public static void fillHeaders(Sheet sheet, CellStyle cellStyleHeader) {
+        Row headerForNames = sheet.createRow(0);
+        int headerCellInd = 0;
+        for(String headerName : GeneratorUtils.HEADERS){
+            Cell headerCell = headerForNames.createCell(headerCellInd);
+            headerCell.setCellStyle(cellStyleHeader);
+            headerCell.setCellValue(headerName);
+
+            headerCellInd++;
+        }
+    }
+
+
     private static String getHouseNumberFromStreet(String street){
         String[] splitted = street.split(" ");
 
@@ -81,17 +100,5 @@ public class ExcelUtils {
         }
 
         return splitted[0];
-    }
-
-    public static void fillHeaders(Sheet sheet, CellStyle cellStyleHeader) {
-        Row headerForNames = sheet.createRow(0);
-        int headerCellInd = 0;
-        for(String headerName : GeneratorUtils.HEADERS){
-            Cell headerCell = headerForNames.createCell(headerCellInd);
-            headerCell.setCellStyle(cellStyleHeader);
-            headerCell.setCellValue(headerName);
-
-            headerCellInd++;
-        }
     }
 }

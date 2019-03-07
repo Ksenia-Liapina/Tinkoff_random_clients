@@ -2,6 +2,7 @@ package ru.tinkof.lyapina.generator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import ru.tinkof.lyapina.utils.ExcelUtils;
 import ru.tinkof.lyapina.utils.GeneratorUtils;
 
 import java.io.*;
@@ -30,20 +31,7 @@ public class ExcelGenerator implements IGenerator {
 
     private byte[] generateExcelTable(int rowsCount) throws Exception {
         Workbook workbook = new HSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Users");
-        sheet.setDefaultColumnWidth(40);
-
-        CellStyle cellStyleHeader = workbook.createCellStyle();
-        cellStyleHeader.setWrapText(true);
-        cellStyleHeader.setAlignment(ALIGN_CENTER);
-        cellStyleHeader.setVerticalAlignment(ALIGN_CENTER);
-        cellStyleHeader.setIndention((short) 1);
-
-        Font font = workbook.createFont();
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-        cellStyleHeader.setFont(font);
-
-        fillHeaders(sheet, cellStyleHeader);
+        Sheet sheet = ExcelUtils.createSheetWithHeaders(workbook, "Users");
 
         int rowCount = 1;
         while (rowCount < rowsCount + 1) {
