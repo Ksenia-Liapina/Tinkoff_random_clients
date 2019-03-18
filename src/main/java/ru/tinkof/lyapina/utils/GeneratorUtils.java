@@ -13,6 +13,8 @@ public class GeneratorUtils {
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+    private static final String LOCAL_GEN_RESOURCES_PACKAGE = "/local/";
+
     public static final String[] HEADERS = {
             "Имя",
             "Фамилия",
@@ -67,7 +69,8 @@ public class GeneratorUtils {
     }
 
     public static String getRandomLineFromFile(String fileName) throws IOException {
-        InputStream in = GeneratorUtils.class.getClassLoader().getResourceAsStream(fileName);
+        InputStream in = GeneratorUtils.class.getClassLoader().getResourceAsStream(LOCAL_GEN_RESOURCES_PACKAGE +
+                                                                                   fileName);
 
         if(in != null){
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in, "UTF-8"));

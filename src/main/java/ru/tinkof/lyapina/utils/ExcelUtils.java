@@ -39,7 +39,10 @@ public class ExcelUtils {
             userRow.createCell(10).setCellValue(user.getLocationInfo().getCity());
             userRow.createCell(11).setCellValue(user.getLocationInfo().getStreet());
             userRow.createCell(12).setCellValue(getHouseNumberFromStreet(user.getLocationInfo().getStreet()));
-            userRow.createCell(13).setCellValue(1 + GeneratorUtils.RANDOM.nextInt(200));
+            int flat = 1 + GeneratorUtils.RANDOM.nextInt(200);
+            userRow.createCell(13).setCellValue(flat);
+
+            user.getLocationInfo().setFlat(flat);
 
             rowCount++;
         }
@@ -81,7 +84,7 @@ public class ExcelUtils {
     }
 
 
-    private static String getHouseNumberFromStreet(String street){
+    public static String getHouseNumberFromStreet(String street){
         String[] splitted = street.split(" ");
 
         for(String streetPart : splitted){
@@ -93,7 +96,7 @@ public class ExcelUtils {
         return "Н/Д";
     }
 
-    private static String parseStringDate(String dateStr){
+    public static String parseStringDate(String dateStr){
         String[] splitted = dateStr.split("T");
         if(splitted.length < 2){
             return dateStr;

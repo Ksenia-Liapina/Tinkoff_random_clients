@@ -66,9 +66,9 @@ public class PdfGenerator implements IGenerator {
         boolean isMale = GeneratorUtils.RANDOM.nextBoolean();
         LocalDate birthDate = GeneratorUtils.generateBirthDate();
 
-        String userFileName = isMale ? "namesMale.txt" : "namesFemale.txt";
-        String userFileSurName = isMale ? "surnamesMale.txt" : "surnamesFemale.txt";
-        String userFileMiddleName = isMale ? "middleNamesMale.txt" : "middleNamesFemale.txt";
+        String userFileName = isMale ? "local/namesMale.txt" : "local/namesFemale.txt";
+        String userFileSurName = isMale ? "local/surnamesMale.txt" : "local/surnamesFemale.txt";
+        String userFileMiddleName = isMale ? "local/middleNamesMale.txt" : "local/middleNamesFemale.txt";
 
         table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile(userFileName), font));
         table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile(userFileSurName), font));
@@ -78,10 +78,10 @@ public class PdfGenerator implements IGenerator {
         table.addCell(getCellPhrase(birthDate.format(GeneratorUtils.DATE_FORMATTER), font));
         table.addCell(getCellPhrase(GeneratorUtils.generateInnForRegion("77"), font));
         table.addCell(getCellPhrase(String.valueOf(100000 + GeneratorUtils.RANDOM.nextInt(100000)), font));
-        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("countries.txt"), font));
-        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("regions.txt"), font));
-        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("cities.txt"), font));
-        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("streets.txt"), font));
+        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("local/countries.txt"), font));
+        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("local/regions.txt"), font));
+        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("local/cities.txt"), font));
+        table.addCell(getCellPhrase(GeneratorUtils.getRandomLineFromFile("local/streets.txt"), font));
         table.addCell(getCellPhrase(String.valueOf(1 + GeneratorUtils.RANDOM.nextInt(150)), font));
         table.addCell(getCellPhrase(String.valueOf(1 + GeneratorUtils.RANDOM.nextInt(200)), font));
     }

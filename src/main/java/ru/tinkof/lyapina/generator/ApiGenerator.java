@@ -1,6 +1,10 @@
 package ru.tinkof.lyapina.generator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ru.tinkof.lyapina.dao.PersonsDAO;
+import ru.tinkof.lyapina.domain.PersonsEntity;
+import ru.tinkof.lyapina.mapper.UserMapper;
+import ru.tinkof.lyapina.model.User;
 import ru.tinkof.lyapina.model.UsersHolder;
 import ru.tinkof.lyapina.utils.ExcelUtils;
 import ru.tinkof.lyapina.utils.GeneratorUtils;
@@ -8,7 +12,9 @@ import ru.tinkof.lyapina.utils.UrlUtils;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ApiGenerator implements IGenerator {
 
@@ -36,9 +42,20 @@ public class ApiGenerator implements IGenerator {
 
         byte[] fileData = ExcelUtils.createExcelFileForUsers(usersHolder.getUsers());
 
+        this.saveToDB(usersHolder.getUsers());
+
         String filePath = new File(FILE_NAME).getAbsolutePath();
 
         GeneratorUtils.saveDataToFile(fileData, filePath);
         System.out.println(String.format("Файл создан. Путь: %s", filePath));
+    }
+
+    private void saveToDB(List<User> users){
+        List<PersonsEntity> entities = users
+                .stream()
+                .map(UserMapper::mapUserToEntity)
+                .collect(Collectors.toList());
+
+        new PersonsDAO().persistAll(entities);
     }
 }

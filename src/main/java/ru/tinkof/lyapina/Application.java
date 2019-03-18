@@ -18,6 +18,7 @@ public class Application {
             generator = new ExcelGenerator("task.xls");
             generator.generate();
         }
+
     }
 
 }

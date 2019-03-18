@@ -62,6 +62,7 @@ public class User {
         private String city;
         private String state;
         private String postcode;
+        private int flat;
 
         public String getStreet() {
             return street;
@@ -93,6 +94,14 @@ public class User {
 
         public void setPostcode(String postcode) {
             this.postcode = postcode;
+        }
+
+        public int getFlat() {
+            return flat;
+        }
+
+        public void setFlat(int flat) {
+            this.flat = flat;
         }
     }
     public static class BirthInfo{

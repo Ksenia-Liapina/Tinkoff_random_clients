@@ -21,6 +21,8 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.7'
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.7'
     compile 'org.apache.commons:commons-lang3:3.8.1'
+    compile 'org.hibernate:hibernate-core:5.4.1.Final'
+    compile 'mysql:mysql-connector-java:8.0.13'
 }
 
 jar {

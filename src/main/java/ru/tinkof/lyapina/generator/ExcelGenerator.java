@@ -9,9 +9,6 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.Period;
 
-import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_CENTER;
-import static ru.tinkof.lyapina.utils.ExcelUtils.fillHeaders;
-
 public class ExcelGenerator implements IGenerator {
 
     private final File excelFile;
@@ -42,13 +39,13 @@ public class ExcelGenerator implements IGenerator {
             String userMiddleName;
 
             if(isMale){
-                userName = GeneratorUtils.getRandomLineFromFile("namesMale.txt");
-                userSurName = GeneratorUtils.getRandomLineFromFile("surnamesMale.txt");
-                userMiddleName = GeneratorUtils.getRandomLineFromFile("middleNamesMale.txt");
+                userName = GeneratorUtils.getRandomLineFromFile("local/namesMale.txt");
+                userSurName = GeneratorUtils.getRandomLineFromFile("local/surnamesMale.txt");
+                userMiddleName = GeneratorUtils.getRandomLineFromFile("local/middleNamesMale.txt");
             } else {
-                userName = GeneratorUtils.getRandomLineFromFile("namesFemale.txt");
-                userSurName = GeneratorUtils.getRandomLineFromFile("surnamesFemale.txt");
-                userMiddleName = GeneratorUtils.getRandomLineFromFile("middleNamesFemale.txt");
+                userName = GeneratorUtils.getRandomLineFromFile("local/namesFemale.txt");
+                userSurName = GeneratorUtils.getRandomLineFromFile("local/surnamesFemale.txt");
+                userMiddleName = GeneratorUtils.getRandomLineFromFile("local/middleNamesFemale.txt");
             }
             LocalDate birthDate = GeneratorUtils.generateBirthDate();
             int postIndex = 100000 + GeneratorUtils.RANDOM.nextInt(100000);
@@ -61,10 +58,10 @@ public class ExcelGenerator implements IGenerator {
             userRow.createCell(5).setCellValue(birthDate.format(GeneratorUtils.DATE_FORMATTER));
             userRow.createCell(6).setCellValue(GeneratorUtils.generateInnForRegion("77"));
             userRow.createCell(7).setCellValue(postIndex);
-            userRow.createCell(8).setCellValue(GeneratorUtils.getRandomLineFromFile("countries.txt"));
-            userRow.createCell(9).setCellValue(GeneratorUtils.getRandomLineFromFile("regions.txt"));
-            userRow.createCell(10).setCellValue(GeneratorUtils.getRandomLineFromFile("cities.txt"));
-            userRow.createCell(11).setCellValue(GeneratorUtils.getRandomLineFromFile("streets.txt"));
+            userRow.createCell(8).setCellValue(GeneratorUtils.getRandomLineFromFile("local/countries.txt"));
+            userRow.createCell(9).setCellValue(GeneratorUtils.getRandomLineFromFile("local/regions.txt"));
+            userRow.createCell(10).setCellValue(GeneratorUtils.getRandomLineFromFile("local/cities.txt"));
+            userRow.createCell(11).setCellValue(GeneratorUtils.getRandomLineFromFile("local/streets.txt"));
             userRow.createCell(12).setCellValue(1 + GeneratorUtils.RANDOM.nextInt(150));
             userRow.createCell(13).setCellValue(1 + GeneratorUtils.RANDOM.nextInt(200));
 
