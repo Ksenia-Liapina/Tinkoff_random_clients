@@ -9,3 +9,10 @@
 4. В cmd меняем кодировку командой "chcp 1251" для корректного отображения русских букв в консоли
 5. В cmd пишем "java -jar arhitecturetask-1.0.jar"
 6. Сгенерированные два файла будут лежать в той же папке (Tinkoff_random_clients\build\libs)
+
+
+Информация:
+1. Файлик конфига: src/main/resources/hibernate.cfg.xml
+2. <property name="connection.url"> - урл покдлючения к базе
+3. <property name="connection.username">root</property>
+<property name="connection.password"></property> - данные для входа
