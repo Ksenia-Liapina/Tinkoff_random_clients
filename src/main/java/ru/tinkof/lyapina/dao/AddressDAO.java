@@ -43,9 +43,7 @@ public class AddressDAO implements IDAOInterface<AddressEntity, Integer> {
 
     private static SessionFactory getSessionFactory() {
         Configuration configuration = new Configuration().configure();
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties());
-        return configuration.buildSessionFactory(builder.build());
+        return configuration.buildSessionFactory();
     }
 
     public Session getCurrentSession() {

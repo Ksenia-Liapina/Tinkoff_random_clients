@@ -9,6 +9,7 @@ import ru.tinkof.lyapina.domain.AddressEntity;
 import ru.tinkof.lyapina.domain.PersonsEntity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonsDAO implements IDAOInterface<PersonsEntity, Integer> {
 
@@ -18,20 +19,24 @@ public class PersonsDAO implements IDAOInterface<PersonsEntity, Integer> {
 
     private static SessionFactory getSessionFactory() {
         Configuration configuration = new Configuration().configure();
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties());
-        return configuration.buildSessionFactory(builder.build());
+        return configuration.buildSessionFactory();
     }
 
-    public PersonsEntity findByFullName(String surname, String name, String middleName){
+    public PersonsEntity findByFullName(String surname, String name){
         this.openCurrentSession();
-        PersonsEntity ent = (PersonsEntity) this.getCurrentSession()
-                                                .createQuery("select p from PersonsEntity p " +
-                                             "where p.surname = :surname and p.name = :name and p.middleName = :middleName")
-                                                .setParameter("surname", surname)
-                                                .setParameter("name", name)
-                                                .setParameter("middleName", middleName)
-                                                .getSingleResult();
+        PersonsEntity ent;
+        try {
+            ent = (PersonsEntity) this.getCurrentSession()
+                                   .createQuery("select p from PersonsEntity p " +
+                                                "where p.surname = :surname and p.name = :name")
+                                   .setParameter("surname", surname)
+                                   .setParameter("name", name)
+                                   .getSingleResult();
+        } catch (Exception e){
+            this.closeCurrentSession();
+            return null;
+        }
+
         this.closeCurrentSession();
         return ent;
     }
@@ -76,7 +81,7 @@ public class PersonsDAO implements IDAOInterface<PersonsEntity, Integer> {
     @Override
     public PersonsEntity findById(Integer id) {
         this.openCurrentSession();
-        PersonsEntity ent = this.getCurrentSession().get(PersonsEntity.class, id);
+        PersonsEntity ent = this.getCurrentSession().find(PersonsEntity.class, id);
         this.closeCurrentSession();
         return ent;
     }
@@ -88,6 +93,25 @@ public class PersonsDAO implements IDAOInterface<PersonsEntity, Integer> {
         List<PersonsEntity> entities = getCurrentSession().createQuery("select a from PersonsEntity a").list();
         this.closeCurrentSession();
         return entities;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<PersonsEntity> findAllByCount(int count) {
+        this.openCurrentSession();
+        List<PersonsEntity> entities;
+        try {
+            entities = getCurrentSession().createQuery("select a from PersonsEntity a").list();
+        } catch (Exception e){
+            this.closeCurrentSession();
+            return null;
+        }
+
+        if(entities == null){
+            return null;
+        } else if(entities.size() <= count){
+            return entities;
+        }
+        return entities.subList(0, count);
     }
 
     @Override

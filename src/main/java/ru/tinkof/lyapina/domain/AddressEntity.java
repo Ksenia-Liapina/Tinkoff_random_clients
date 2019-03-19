@@ -7,9 +7,9 @@ import javax.persistence.*;
 public class AddressEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private int id;
+    private Long id;
 
     @Column(name = "postcode")
     private String postCode;
@@ -36,11 +36,11 @@ public class AddressEntity {
              fetch = FetchType.LAZY, optional = false)
     private PersonsEntity personsEntity;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
