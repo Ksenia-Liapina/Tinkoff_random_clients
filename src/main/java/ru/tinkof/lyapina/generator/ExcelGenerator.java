@@ -71,8 +71,7 @@ public class ExcelGenerator implements IGenerator {
             rowCount++;
         }
 
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             workbook.write(baos);
             return baos.toByteArray();
         } catch (IOException e) {

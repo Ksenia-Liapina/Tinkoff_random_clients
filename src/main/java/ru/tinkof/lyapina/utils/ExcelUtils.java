@@ -7,9 +7,6 @@ import ru.tinkof.lyapina.model.User;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 import static org.apache.poi.ss.usermodel.CellStyle.ALIGN_CENTER;
@@ -34,7 +31,7 @@ public class ExcelUtils {
             userRow.createCell(5).setCellValue(parseStringDate(user.getBirthInfo().getBirthDate()));
             userRow.createCell(6).setCellValue("Н/Д");
             userRow.createCell(7).setCellValue(user.getLocationInfo().getPostcode());
-            userRow.createCell(8).setCellValue(user.getNat());
+            userRow.createCell(8).setCellValue(user.getNation());
             userRow.createCell(9).setCellValue(user.getLocationInfo().getState());
             userRow.createCell(10).setCellValue(user.getLocationInfo().getCity());
             userRow.createCell(11).setCellValue(user.getLocationInfo().getStreet());

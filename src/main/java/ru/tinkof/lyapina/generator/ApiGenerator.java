@@ -7,6 +7,8 @@ import ru.tinkof.lyapina.utils.GeneratorUtils;
 import ru.tinkof.lyapina.utils.UrlUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class ApiGenerator implements IGenerator {
     }
 
     @Override
-    public void generate() throws Exception {
+    public void generate() throws IOException {
         final int usersCount = GeneratorUtils.RANDOM.nextInt(30) + 1;
         final Map<String, String> params = new HashMap<String, String>(){{
             put("inc", "gender,name,location,nat,dob");

@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User {
 
     private String gender;
-    private String nat;
+    @JsonProperty("nat")
+    private String nation;
 
     private UserName name;
 
@@ -24,12 +25,12 @@ public class User {
         this.gender = gender;
     }
 
-    public String getNat() {
-        return nat;
+    public String getNation() {
+        return nation;
     }
 
-    public void setNat(String nat) {
-        this.nat = nat;
+    public void setNation(String nation) {
+        this.nation = nation;
     }
 
     public UserName getName() {
